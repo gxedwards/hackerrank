@@ -1,0 +1,48 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+    
+   static class Contacts {
+        // using a list is too slow with large lists. Sorted set or map provides options, another would be a Trie
+        SortedSet<String> l = new TreeSet<String>();
+        public void add(String name){
+            l.add(name);
+        }
+        
+        public int find(String searchCriteria){
+            
+            if(searchCriteria.length() > 0) {
+                // find the next character
+               char nextLetter = (char) ((int)searchCriteria.charAt(searchCriteria.length() -1) + 1);
+               String end = searchCriteria.substring(0, searchCriteria.length()-1) + nextLetter;
+               return l.subSet(searchCriteria, end).size();
+            }
+            return 0;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        
+        Contacts contacts = new Contacts();
+        for(int a0 = 0; a0 < n; a0++){
+            String op = in.next();
+            String contact = in.next();
+            
+            switch (op){
+                case "add": contacts.add(contact);break;
+                case "find": 
+                    int matches = contacts.find(contact);
+                    System.out.println(matches);
+                    break;
+                default: break;
+            }
+        }
+        
+    }
+}
